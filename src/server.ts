@@ -1,14 +1,21 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import { config } from "dotenv";
+import rootRouter from "./routers";
+import cors from "cors";
+import dataBaseConfig from "./configs/dbconfig";
 
 // env and app configuration
 config();
+dataBaseConfig();
 const app = express();
 const port: string = process.env.APPLICATION_PROT || "8000";
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Hello, TypeScript + Node.js + Express!");
-});
+// middlewares 
+app.use(cors());
+app.use(express.json());
+
+// API routes setup
+app.use("/api/v1", rootRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

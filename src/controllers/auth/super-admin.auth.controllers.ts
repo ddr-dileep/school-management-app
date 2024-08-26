@@ -79,7 +79,9 @@ export const getSuperAdmin = async (
   res: Response
 ): Promise<any> => {
   try {
-    const admin: any = await SuperAdminModel.findById(req.user.id);
+    const admin: any = await SuperAdminModel.findById(req.user.id).select(
+      "-password"
+    );
     if (!admin) {
       return res
         .status(404)

@@ -29,12 +29,9 @@ export const authMiddleware = async (
     return res.status(401).json({ message: "Token not provided" });
   }
 
-  console.log("toekn", token);
-
   try {
     const verified = await verifyToken(token);
     req.user = verified;
-    console.log("verified", verified);
     next();
   } catch (error) {
     return res.status(401).json({ message: "Invalid token" });

@@ -1,3 +1,5 @@
+import mongoose from "mongoose";
+
 export const apiSuccess = (data: any, message = "Success") => {
   const response = {
     data,
@@ -24,10 +26,17 @@ export const apiOtherError = (error: any) => {
   if (error.code === 11000) {
     const duplicateKey = Object.keys(error.keyValue)[0];
     const duplicateValue = error.keyValue[duplicateKey];
-    const errorMessage = `Duplicate value for key: ${duplicateKey} ${duplicateValue}`;
+    const errorMessage = `Duplicate value for key: ${duplicateKey} (${duplicateValue})`;
 
     return apiError("duplicate_error", errorMessage);
-  } else {
-    return apiError("Something went wrong", "error");
   }
+
+  if (error instanceof mongoose.Error.CastError && error.kind === "ObjectId") {
+    return apiError("invalid_id_error", "Invalid ID format provided.");
+  }
+
+  return apiError(
+    "something_went_wrong",
+    error.message || "An unknown error occurred."
+  );
 };

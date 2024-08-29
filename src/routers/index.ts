@@ -4,11 +4,13 @@ import adminRouter from "./auth/admin.auth.routers";
 import schoolRouter from "./school/school.routers";
 import schoolClassRouter from "./school/school.class.routers";
 import feesRouter from "./school/school.class.fees.routers";
+import teacherRouter from "./auth/teacher.auth.routers";
 
 const rootRouter = Router();
 
 rootRouter.use("/auth", authRouter);
 rootRouter.use("/auth/admin", adminRouter);
+rootRouter.use("/auth/teacher", teacherRouter);
 
 rootRouter.use("/school", schoolRouter);
 rootRouter.use("/school/class", schoolClassRouter);
